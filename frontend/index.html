@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Project</h2>
+
+        <div class="box">
+            <label for="">Project Name<input id="projectName" placeholder="Project Name"></label>
+            <label for="">Student Name<input id="studentName" placeholder="Student Name"></label>
+            <label for="">Technology Used<input id="technology" placeholder="Technology Used"></label>
+            
+            <label for="">
+                Project Status
+                <select id="status">
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select></label>
+
+            <label for="">Start Date<input id="date" type="date"></label>
+
+            <button onclick="addProject()">Add Project</button>
+        </div>
+
+        <hr>
+        
+        <a href="view.html">Go to View Page</a>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function addProject()
+        {
+           try {
+                const data = {
+                    projectName: document.getElementById("projectName").value,
+                    studentName: document.getElementById("studentName").value,
+                    technology: document.getElementById("technology").value,
+                    status: document.getElementById("status").value,
+                    date: document.getElementById("date").value
+                };
+
+                axios.post("http://localhost:3000/projects", data)
+                .then(() =>
+                {
+                    alert("Project Added");
+                    window.location.href = "view.html";
+                });
+           } catch (error) {
+            console.log(error); 
+           }
+        }
+    </script>
+
+</body>
+</html>

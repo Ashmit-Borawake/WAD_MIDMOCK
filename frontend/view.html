@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="view.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2>All Projects</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Student</th>
+                <th>Tech</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+           
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function loadProjects()
+        {
+            try {
+                axios.get("http://localhost:3000/projects")
+                .then(res=> {
+                    const data=res.data;
+                    let rows="";
+
+                    data.forEach(p=>{
+                        rows += `
+                            <tr>
+                                <td>${p.projectName}</td>
+                                <td>${p.studentName}</td>
+                                <td>${p.technology}</td>
+                                <td>
+                                    <select onchange="updateStatus('${p._id}', this.value)">
+                                        <option ${p.status=="Pending"?"selected":""}>Pending</option>
+                                        <option ${p.status=="In Progress"?"selected":""}>In Progress</option>
+                                        <option ${p.status=="Completed"?"selected":""}>Completed</option>
+                                    </select>
+                                </td>
+                                <td>${p.date}</td>
+                                <td><button onclick="updateStatus('${p._id}', 'Completed')">Done</button></td>
+                                <td><button onclick="deleteProject('${p._id}')">Delete</button></td>
+                            </tr>
+                            `;
+                    })
+
+                    document.getElementById("tableBody").innerHTML=rows;
+                })
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
+        function updateStatus(id,status)
+        {
+            try {
+                axios.put(`http://localhost:3000/projects/${id}`,{status})
+                .then(()=>{
+                    loadProjects();
+                })
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
+        function deleteProject(id)
+        {
+            try {
+                 axios.delete(`http://localhost:3000/projects/${id}`)
+                .then(()=>{
+                    loadProjects();
+                })
+            } catch (error) {
+                console.log(error);
+
+            }
+        }
+
+    loadProjects();
+
+    </script>
+
+</body>
+</html>
