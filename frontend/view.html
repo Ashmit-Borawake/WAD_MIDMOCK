@@ -37,25 +37,35 @@
                     const data=res.data;
                     let rows="";
 
-                    data.forEach(p=>{
-                        rows += `
-                            <tr>
-                                <td>${p.projectName}</td>
-                                <td>${p.studentName}</td>
-                                <td>${p.technology}</td>
-                                <td>
-                                    <select onchange="updateStatus('${p._id}', this.value)">
-                                        <option ${p.status=="Pending"?"selected":""}>Pending</option>
-                                        <option ${p.status=="In Progress"?"selected":""}>In Progress</option>
-                                        <option ${p.status=="Completed"?"selected":""}>Completed</option>
-                                    </select>
-                                </td>
-                                <td>${p.date}</td>
-                                <td><button onclick="updateStatus('${p._id}', 'Completed')">Done</button></td>
-                                <td><button onclick="deleteProject('${p._id}')">Delete</button></td>
-                            </tr>
-                            `;
-                    })
+                data.forEach(p =>
+                {
+                    const today = new Date().toISOString().split("T")[0];
+                    const projectDate = new Date(p.date).toISOString().split("T")[0];
+
+                    if (projectDate === today && p.status !== "Completed")
+                    {
+                        updateStatus(p._id, "Completed");
+                        p.status = "Completed";
+                    }
+
+                    rows += `
+                        <tr>
+                            <td>${p.projectName}</td>
+                            <td>${p.studentName}</td>
+                            <td>${p.technology}</td>
+                            <td>
+                                <select onchange="updateStatus('${p._id}', this.value)">
+                                    <option ${p.status=="Pending"?"selected":""}>Pending</option>
+                                    <option ${p.status=="In Progress"?"selected":""}>In Progress</option>
+                                    <option ${p.status=="Completed"?"selected":""}>Completed</option>
+                                </select>
+                            </td>
+                            <td>${projectDate}</td>
+                            <td><button onclick="updateStatus('${p._id}', 'Completed')">Done</button></td>
+                            <td><button onclick="deleteProject('${p._id}')">Delete</button></td>
+                        </tr>
+                    `;
+                });
 
                     document.getElementById("tableBody").innerHTML=rows;
                 })
@@ -68,6 +78,10 @@
         function updateStatus(id,status)
         {
             try {
+
+
+
+
                 axios.put(`http://localhost:3000/projects/${id}`,{status})
                 .then(()=>{
                     loadProjects();
