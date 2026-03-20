@@ -6,7 +6,6 @@ body
     padding: 20px;
 }
 
-/* TITLE */
 h2
 {
     text-align: center;
@@ -14,7 +13,6 @@ h2
     margin-bottom: 20px;
 }
 
-/* TABLE */
 table
 {
     width: 90%;
@@ -23,7 +21,6 @@ table
     background-color: white;
 }
 
-/* HEADER */
 th
 {
     background-color: #007bff;
@@ -32,7 +29,6 @@ th
     border: 1px solid #ddd;
 }
 
-/* CELLS */
 td
 {
     padding: 10px;
@@ -40,13 +36,11 @@ td
     text-align: center;
 }
 
-/* ROW HOVER */
 tr:hover
 {
     background-color: #f1f1f1;
 }
 
-/* DROPDOWN */
 select
 {
     padding: 5px;
@@ -54,7 +48,6 @@ select
     border: 1px solid #ccc;
 }
 
-/* BUTTON COMMON */
 button
 {
     padding: 6px 10px;
@@ -63,21 +56,18 @@ button
     cursor: pointer;
 }
 
-/* DONE BUTTON */
 td:nth-child(6) button
 {
     background-color: #28a745;
     color: white;
 }
 
-/* DELETE BUTTON */
 td:nth-child(7) button
 {
     background-color: #dc3545;
     color: white;
 }
 
-/* HOVER */
 button:hover
 {
     opacity: 0.9;
